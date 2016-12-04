@@ -3,3 +3,4 @@ source "https://rubygems.org"
 
 gem 'xhp'
 gem 'clockwork'
+gem 'daemons'
