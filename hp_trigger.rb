@@ -5,14 +5,21 @@ include Clockwork
 XHP::CLIENT_SECRET = '' # Health Planet の Client ID
 XHP::CLIENT_ID = '' # Health Planet の Client Secret
 MAKER_CHANNEL_KEY = '' # IFTTT Maker Channel の Key
+XHP_CODE = ''
 
 xhp = XHP::Client.new
+begin
+  token = xhp.token(XHP_CODE)
+rescue
+  p 'Health Planet の Client ID と Secret が正しく設定されていません。'
+  exit(1)
+end
 
-p '以下のURLにアクセスしてリクエストコードを入力して下さい。'
-p xhp.get_auth_url
-
-code = gets
-token = xhp.token(code)
+if !token.access_token then
+  p 'アクセストークンが無効です。以下のURLにアクセスしてリクエストコードを設定して下さい。'
+  p xhp.get_auth_url
+  exit(1)
+end
 
 prev_date = 0
 prev_weight = 0
